@@ -29,7 +29,6 @@ export default class UserLoginValidator {
       rules.required()
     ]),
     password: schema.string([
-      rules.exists({table: 'users', column: 'password'}),
       rules.required()
     ])
   })
@@ -48,7 +47,6 @@ export default class UserLoginValidator {
   public messages: CustomMessages = {
     'phone_number.exists': 'No account found against the given phone_number',
     'phone_number.rquired': 'Phone_number field can not be empty',
-    'password.exists': 'No account found against the given password',
     'password.rquired': 'Password field can not be empty',
   }
 }

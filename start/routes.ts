@@ -20,7 +20,9 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async () => {
-  return "Welcome to YumYum Food Delivery App Backend"
-})
+Route.get('/', async () => "Welcome to YumYum Food Delivery App Backend")
+
+//Auth
+Route.post('api/signup', 'UsersController.signUp')
+Route.post('api/login', 'UsersController.login')
 
