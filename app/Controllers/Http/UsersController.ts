@@ -35,4 +35,14 @@ export default class UsersController {
             return response.status(400).send(error)
         }
     }
+
+    public async show({auth, response}: HttpContextContract){
+        try {
+            const user = await User.find(auth.user?.id)
+            return response.send(Response(user))
+        } catch (error) {
+            console.log(error);
+            return response.status(400).send(error)
+        }
+    }
 }

@@ -26,3 +26,7 @@ Route.get('/', async () => "Welcome to YumYum Food Delivery App Backend")
 Route.post('api/signup', 'UsersController.signUp')
 Route.post('api/login', 'UsersController.login')
 
+Route.group(() => {
+  //Users
+  Route.get('/users', 'UsersController.show')
+}).prefix('api').middleware(['auth'])
