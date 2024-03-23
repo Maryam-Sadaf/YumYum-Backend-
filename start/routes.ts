@@ -29,4 +29,6 @@ Route.post('api/login', 'UsersController.login')
 Route.group(() => {
   //Users
   Route.get('/users', 'UsersController.show')
+  Route.put('/users/:id', 'UsersController.update')
+  Route.post('/logout', 'UsersController.logout')
 }).prefix('api').middleware(['auth'])

@@ -1,8 +1,8 @@
 import { schema, rules, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class UserSignUpValidator {
-  constructor(protected ctx: HttpContextContract) { }
+export default class UpdateUserValidator {
+  constructor(protected ctx: HttpContextContract) {}
 
   /*
    * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
@@ -31,13 +31,7 @@ export default class UserSignUpValidator {
       rules.required()
     ]),
     phone_number: schema.string([
-      rules.unique({ table: 'users', column: 'phone_number' }),
       rules.regex(/^\+\d{12}$/),
-      rules.required()
-    ]),
-    password: schema.string([
-      rules.minLength(8),
-      rules.maxLength(20),
       rules.required()
     ]),
     address: schema.string([
@@ -58,12 +52,8 @@ export default class UserSignUpValidator {
   public messages: CustomMessages = {
     'name.alpha': 'The name should contain only characters',
     'name.required': 'Name field can not be empty',
-    'phone_number.unique': 'This phone_number is already exists',
     'phone_number.regex': 'The regex rule for phone_number voilets',
     'phone_number.required': 'Phone_number field can not be empty',
-    'password.minLength': 'Password must contain atleast eight characters',
-    'password.maxLength': 'Password can contain atmost twenty characters',
-    'password.required': 'Password field can not be empty',
     'address.required': 'Address field can not be empty',
   }
 }
