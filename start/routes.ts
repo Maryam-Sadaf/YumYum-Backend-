@@ -23,12 +23,21 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.get('/', async () => "Welcome to YumYum Food Delivery App Backend")
 
 //Auth
-Route.post('api/signup', 'UsersController.signUp')
-Route.post('api/login', 'UsersController.login')
+Route.post('api/user_signup', 'UsersController.signUp')
+Route.post('api/user_login', 'UsersController.login')
+Route.post('api/restaurant_signup', 'RestaurantsController.signUp')
+Route.post('api/restaurant_login', 'RestaurantsController.login')
 
 Route.group(() => {
   //Users
   Route.get('/users', 'UsersController.show')
   Route.put('/users/:id', 'UsersController.update')
-  Route.post('/logout', 'UsersController.logout')
-}).prefix('api').middleware(['auth'])
+  Route.post('/user_logout', 'UsersController.logout')
+}).prefix('api').middleware(['auth:user_api'])
+
+Route.group(() => {
+  //Restaurants
+  Route.get('/restaurants', 'RestaurantsController.show')
+  Route.put('/restaurants/:id', 'RestaurantsController.update')
+  Route.post('/restaurant_logout', 'RestaurantsController.logout')
+}).prefix('api').middleware(['auth:restaurant_api'])

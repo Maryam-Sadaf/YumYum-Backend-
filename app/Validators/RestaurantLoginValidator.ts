@@ -1,7 +1,7 @@
 import { schema, rules, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class UserSignUpValidator {
+export default class RestaurantLoginValidator {
   constructor(protected ctx: HttpContextContract) { }
 
   /*
@@ -25,24 +25,13 @@ export default class UserSignUpValidator {
    */
   public schema = schema.create({
     name: schema.string([
-      rules.alpha({
-        allow: ['space']
-      }),
+      rules.exists({ table: 'restaurants', column: 'name' }),
       rules.required()
     ]),
-    phone_number: schema.string([
-      rules.unique({ table: 'users', column: 'phone_number' }),
-      rules.regex(/^\+\d{12}$/),
+    license_key: schema.string([
+      rules.exists({ table: 'restaurants', column: 'license_key' }),
       rules.required()
     ]),
-    password: schema.string([
-      rules.minLength(8),
-      rules.maxLength(20),
-      rules.required()
-    ]),
-    address: schema.string([
-      rules.required()
-    ])
   })
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
@@ -56,14 +45,9 @@ export default class UserSignUpValidator {
    *
    */
   public messages: CustomMessages = {
-    'name.alpha': 'The name should contain only characters and spaces',
-    'name.required': 'Name field can not be empty',
-    'phone_number.unique': 'This phone_number is already exists',
-    'phone_number.regex': 'The regex rule for phone_number voilets',
-    'phone_number.required': 'Phone_number field can not be empty',
-    'password.minLength': 'Password must contain atleast eight characters',
-    'password.maxLength': 'Password can contain atmost twenty characters',
-    'password.required': 'Password field can not be empty',
-    'address.required': 'Address field can not be empty',
+    'name.exists': 'No account found against the given restaurant name',
+    'name.required': 'Restaurant name field can not be empty',
+    'license_key.exists': 'No account found against the given license key',
+    'license_key.required': 'License key field can not be empty',
   }
 }

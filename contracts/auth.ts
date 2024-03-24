@@ -5,7 +5,8 @@
  * file.
  */
 
-import User from 'App/Models/User'
+import Restaurant from "App/Models/Restaurant"
+import User from "App/Models/User"
 
 declare module '@ioc:Adonis/Addons/Auth' {
   /*
@@ -37,6 +38,10 @@ declare module '@ioc:Adonis/Addons/Auth' {
       implementation: LucidProviderContract<typeof User>
       config: LucidProviderConfig<typeof User>
     }
+    restaurant: {
+      implementation: LucidProviderContract<typeof Restaurant>
+      config: LucidProviderConfig<typeof Restaurant>
+    }
   }
 
   /*
@@ -64,10 +69,15 @@ declare module '@ioc:Adonis/Addons/Auth' {
     | to authenticate requests.
     |
     */
-    api: {
-      implementation: OATGuardContract<'user', 'api'>
+    user_api: {
+      implementation: OATGuardContract<'user', 'user_api'>
       config: OATGuardConfig<'user'>
       client: OATClientContract<'user'>
+    }
+    restaurant_api: {
+      implementation: OATGuardContract<'restaurant', 'restaurant_api'>
+      config: OATGuardConfig<'restaurant'>
+      client: OATClientContract<'restaurant'>
     }
   }
 }

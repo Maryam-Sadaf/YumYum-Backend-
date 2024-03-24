@@ -4,7 +4,7 @@ import User from 'App/Models/User';
 import { Response } from 'App/Utils/ApiUtil';
 import UserLoginValidator from 'App/Validators/UserLoginValidator';
 import UserSignUpValidator from 'App/Validators/UserSignUpValidator';
-import UpdateUserValidator from 'App/Validators/UpdateUserValidator';
+import UpdateUserValidator from 'App/Validators/UserUpdateValidator';
 
 export default class UsersController {
     public async signUp({ request, response }: HttpContextContract) {
@@ -25,7 +25,7 @@ export default class UsersController {
             if (!(await Hash.verify(user.password, password))) {
                 return response.send(Response({ message: 'Invalid phone_number or password' }))
             }
-            const token = await auth.use('api').generate(user)
+            const token = await auth.use('user_api').generate(user)
             return response.send(Response({ message: 'User LoggedIn Successfully', token: token }))
         } catch (error) {
             console.log(error);
@@ -35,8 +35,8 @@ export default class UsersController {
 
     public async logout({auth, response}:HttpContextContract){
         try {
-            await auth.use('api').revoke()
-            return response.send(Response({ message: "User Logout Successfully"}))
+            await auth.use('user_api').revoke()
+            return response.send(Response({ message: "User LogOut Successfully"}))
         } catch (error) {
             console.log(error);
             return response.status(400).send(error)
@@ -45,8 +45,9 @@ export default class UsersController {
 
     public async show({ auth, response }: HttpContextContract) {
         try {
-            const user = await User.find(auth.user?.id)
-            return response.send(Response(user))
+            const user = await User.findOrFail(auth.user?.id)
+            const { created_at, updated_at, ...data} = user.toJSON()
+            return response.send(Response(data))
         } catch (error) {
             console.log(error);
             return response.status(400).send(error)
