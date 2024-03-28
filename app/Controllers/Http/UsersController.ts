@@ -2,16 +2,17 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Hash from '@ioc:Adonis/Core/Hash'
 import User from 'App/Models/User';
 import { Response } from 'App/Utils/ApiUtil';
-import UserLoginValidator from 'App/Validators/UserLoginValidator';
-import UserSignUpValidator from 'App/Validators/UserSignUpValidator';
-import UpdateUserValidator from 'App/Validators/UserUpdateValidator';
+import UserLoginValidator from 'App/Validators/Users/UserLoginValidator';
+import UserSignUpValidator from 'App/Validators/Users/UserSignUpValidator';
+import UpdateUserValidator from 'App/Validators/Users/UserUpdateValidator';
 
 export default class UsersController {
-    public async signUp({ request, response }: HttpContextContract) {
+    public async signUp({ auth, request, response }: HttpContextContract) {
         try {
-            const user = await request.validate(UserSignUpValidator)
-            await User.create(user)
-            return response.send(Response({ message: 'User SignUp Successfully' }))
+            const data = await request.validate(UserSignUpValidator)
+            const user = await User.create(data)
+            const token = await auth.use('user_api').generate(user)
+            return response.send(Response({ message: 'User SignUp Successfully', token: token }))
         } catch (error) {
             console.log(error);
             return response.status(400).send(error)
@@ -23,7 +24,7 @@ export default class UsersController {
             const { phone_number, password } = await request.validate(UserLoginValidator)
             const user = await User.findByOrFail('phone_number', phone_number)
             if (!(await Hash.verify(user.password, password))) {
-                return response.send(Response({ message: 'Invalid phone_number or password' }))
+                return response.status(400).send({ message: 'Invalid phone_number or password' })
             }
             const token = await auth.use('user_api').generate(user)
             return response.send(Response({ message: 'User LoggedIn Successfully', token: token }))

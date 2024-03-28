@@ -47,17 +47,17 @@ export default class RestaurantSignUpValidator {
     ]),
     phone_number: schema.string([
       rules.unique({ table: 'restaurants', column: 'phone_number' }),
-      rules.regex(/^\+\d{12}$/),
+      rules.regex(/^\d{11}$/),
       rules.required()
     ]),
     license_key: schema.string([
       rules.required()
     ]),
     open_time: schema.date({
-      format: 'HH:mm:ss'
+      format: 'HH:mm'
     },[rules.required()]),
     close_time: schema.date({
-      format: 'HH:mm:ss'
+      format: 'HH:mm'
     },[rules.required()]),
   })
   /**
