@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, ManyToMany, belongsTo, column, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import Restaurant from './Restaurant'
+import Cart from './Cart'
 
 export default class Dish extends BaseModel {
   @column({ isPrimary: true })
@@ -32,4 +33,14 @@ export default class Dish extends BaseModel {
 
   @belongsTo(() => Restaurant)
   public restaurant: BelongsTo<typeof Restaurant>
+
+  @manyToMany(() => Cart, {
+    localKey: 'id',
+    pivotForeignKey: 'dish_id',
+    relatedKey: 'id',
+    pivotRelatedForeignKey: 'cart_id',
+    pivotTable: 'dish_carts',
+    pivotTimestamps: true
+  })
+  public carts: ManyToMany<typeof Cart>
 }

@@ -1,8 +1,8 @@
 import { schema, rules, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class CreateDishValidator {
-  constructor(protected ctx: HttpContextContract) { }
+export default class CreateCartValidator {
+  constructor(protected ctx: HttpContextContract) {}
 
   /*
    * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
@@ -24,23 +24,13 @@ export default class CreateDishValidator {
    *    ```
    */
   public schema = schema.create({
-    name: schema.string([
-      rules.alphaNum({
-        allow: ['space', 'dash', 'underscore',]
-      }),
-      rules.required()
-    ]),
-    description: schema.string([
-      rules.required()
-    ]),
-    price: schema.number([
+    quantity: schema.number([
       rules.required(),
       rules.unsigned()
     ]),
-    image: schema.file({
-      size: '5mb',
-      extnames: ['jpg', 'png', 'svg', 'jpeg'],
-    },[rules.required()])
+    dish_id: schema.number([
+      rules.required()
+    ])
   })
 
   /**
@@ -55,11 +45,8 @@ export default class CreateDishValidator {
    *
    */
   public messages: CustomMessages = {
-    'name.alpha': 'The Dish name should contain only characters, space, dash, and underscore',
-    'name.required': 'Dish name field can not be empty',
-    'description.required': 'Description field can not be empty',
-    'price.required': 'Price field can not be empty',
-    'price.unsigned': 'Price must be non-negative number',
-    'image.required': 'Image field can not be empty',
+    'quantity.required': 'Quantity field can not be empty',
+    'quantity.unsigned': 'Quantity must be non-negative number',
+    'dish_id.required': 'Dish_Id not available',
   }
 }

@@ -35,6 +35,11 @@ Route.group(() => {
   Route.get('/users', 'UsersController.show')
   Route.put('/users/:id', 'UsersController.update')
   Route.post('/user_logout', 'UsersController.logout')
+  //Carts
+  Route.post('/carts', 'CartsController.store')
+  Route.get('/carts', 'CartsController.show')
+  Route.put('/carts/:id', 'CartsController.update')
+  Route.delete('/carts/:id?', 'CartsController.destroy')
 }).prefix('api').middleware(['auth:user_api'])
 
 Route.group(() => {
@@ -46,5 +51,5 @@ Route.group(() => {
   Route.post('/dishes', 'DishesController.store')
   Route.get('/dishes', 'DishesController.show')
   Route.put('/dishes/:id', 'DishesController.update')
-  Route.delete('/dishes/:id', 'DishesController.detroy')
+  Route.delete('/dishes/:id', 'DishesController.destroy')
 }).prefix('api').middleware(['auth:restaurant_api'])

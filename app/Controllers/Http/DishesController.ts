@@ -33,14 +33,16 @@ export default class DishesController {
             let dishes
             if (menu === 'deal') {
                 dishes = await Dish.query().where('restaurantId', restaurantId)
-                    .andWhere('name', 'Like', `${menu}%`)
+                    .andWhere('name', 'Like', "deal%")
             }
             else if (menu === 'regular') {
                 dishes = await Dish.query().where('restaurantId', restaurantId)
                     .andWhere('name', 'Not Like', "deal%")
             }
             else {
-                return response.status(400).send({ message: 'Unknown Query Parameter' })
+                return response.status(400).send({
+                    message: 'Invalid: Bad Request: Unknown Query Parameter'
+                })
             }
             const data = dishes.map((dish) => {
                 return {
@@ -68,23 +70,25 @@ export default class DishesController {
                 await dish.save()
                 return response.send(Response({ message: 'Dish Status Updated Successfully' }))
             }
-            else if (!status) {
+            else if (status === 'null') {
                 const data = await request.validate(CreateDishValidator)
                 await data.image.move(Application.tmpPath('uploads'), {
                     name: `${Date.now()}-${data.image.clientName}`
                 })
+                const previousImage = Application.tmpPath(`uploads/${dish.image}`)
+                await fs.unlink(previousImage)
                 await dish.merge({
                     name: data.name,
                     description: data.description,
                     price: data.price,
                     image: data.image.fileName
                 }).save()
-                const previousImage = Application.tmpPath(`uploads/${dish.image}`)
-                await fs.unlink(previousImage)
                 return response.send(Response({ message: 'Dish Updated Successfully' }))
             }
             else {
-                return response.status(400).send({ message: 'Invalid: Bad Request' })
+                return response.status(400).send({
+                    message: 'Invalid: Bad Request: Unknown Query Parameter'
+                })
             }
         } catch (error) {
             console.log(error);
@@ -95,6 +99,8 @@ export default class DishesController {
     public async destroy({ params, response }: HttpContextContract) {
         try {
             const dish = await Dish.findOrFail(params.id)
+            const image = Application.tmpPath(`uploads/${dish.image}`)
+            await fs.unlink(image)
             await dish.delete()
             return response.send(Response({ message: 'Dish Deleted Successfully' }))
         } catch (error) {
