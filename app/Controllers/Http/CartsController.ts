@@ -4,7 +4,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Cart from 'App/Models/Cart';
 import Dish from 'App/Models/Dish';
 import DishCart from 'App/Models/DishCart';
-import CreateCartValidator from 'App/Validators/Carts/CreateCartValidator';
+import CreateCartValidator from 'App/Validators/CreateCartValidator';
 
 export default class CartsController {
     public async store({ auth, request, response }: HttpContextContract) {

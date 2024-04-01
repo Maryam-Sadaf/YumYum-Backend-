@@ -1,9 +1,9 @@
 import { Response } from 'App/Utils/ApiUtil';
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Restaurant from 'App/Models/Restaurant';
-import RestaurantSignUpValidator from 'App/Validators/Restaurants/RestaurantSignUpValidator';
-import RestaurantLoginValidator from 'App/Validators/Restaurants/RestaurantLoginValidator';
-import RestaurantUpdateValidator from 'App/Validators/Restaurants/RestaurantUpdateValidator';
+import RestaurantSignUpValidator from 'App/Validators/RestaurantSignUpValidator';
+import RestaurantLoginValidator from 'App/Validators/RestaurantLoginValidator';
+import RestaurantUpdateValidator from 'App/Validators/RestaurantUpdateValidator';
 
 export default class RestaurantsController {
     public async signUp({ auth, request, response }: HttpContextContract) {

@@ -3,7 +3,7 @@ import { Response, toBoolean } from 'App/Utils/ApiUtil';
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Dish from 'App/Models/Dish';
 import fs from 'fs/promises'
-import CreateDishValidator from 'App/Validators/Dishes/CreateDishValidator';
+import CreateDishValidator from 'App/Validators/CreateDishValidator';
 
 export default class DishesController {
     public async store({ auth, request, response }: HttpContextContract) {
