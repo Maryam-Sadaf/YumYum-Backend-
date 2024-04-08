@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, HasMany, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Dish from './Dish'
+import Order from './Order'
 
 export default class Restaurant extends BaseModel {
   @column({ isPrimary: true })
@@ -38,4 +39,7 @@ export default class Restaurant extends BaseModel {
 
   @hasMany(() => Dish)
   public dishes: HasMany<typeof Dish>
+
+  @hasMany(() => Order)
+  public orders: HasMany<typeof Order>
 }

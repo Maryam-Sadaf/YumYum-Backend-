@@ -29,7 +29,8 @@ export default class CreateCartValidator {
       rules.unsigned()
     ]),
     dish_id: schema.number([
-      rules.required()
+      rules.required(),
+      rules.unsigned()
     ])
   })
 
@@ -48,5 +49,6 @@ export default class CreateCartValidator {
     'quantity.required': 'Quantity field can not be empty',
     'quantity.unsigned': 'Quantity must be non-negative number',
     'dish_id.required': 'Dish_Id not available',
+    'dish_id.unsigned': 'Dish_Id must be non-negative number',
   }
 }

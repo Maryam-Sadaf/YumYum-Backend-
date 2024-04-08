@@ -40,6 +40,8 @@ Route.group(() => {
   Route.get('/carts', 'CartsController.show')
   Route.put('/carts/:id', 'CartsController.update')
   Route.delete('/carts/:id?', 'CartsController.destroy')
+  //Orders
+  Route.post('/orders', 'OrdersController.store')
 }).prefix('api').middleware(['auth:user_api'])
 
 Route.group(() => {
@@ -52,4 +54,6 @@ Route.group(() => {
   Route.get('/dishes', 'DishesController.show')
   Route.put('/dishes/:id', 'DishesController.update')
   Route.delete('/dishes/:id', 'DishesController.destroy')
+  //Orders
+  Route.get('/orders', 'OrdersController.show')
 }).prefix('api').middleware(['auth:restaurant_api'])

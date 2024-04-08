@@ -16,3 +16,9 @@ export function toBoolean(status) {
   }
   return value
 }
+
+export function generateOrderNumber(order_id) {
+  const timestamp = Date.now().toString(36)
+  const orderNumber = `#${order_id}-${timestamp}`
+  return orderNumber.toUpperCase();
+}
