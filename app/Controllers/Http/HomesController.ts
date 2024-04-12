@@ -10,6 +10,7 @@ export default class HomesController {
                 return {
                     id: item.id,
                     name: item.name,
+                    address: item.address,
                     opening_time: item.openTime,
                     closing_time: item.closeTime
                 }

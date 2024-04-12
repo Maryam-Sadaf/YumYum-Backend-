@@ -26,18 +26,25 @@ export default class DishesController {
         }
     }
 
-    public async show({ auth, request, response }: HttpContextContract) {
+    public async show({ params, auth, request, response }: HttpContextContract) {
         try {
-            const restaurantId = auth.user?.id || 0
+            var restaurantId
+            if (params.id) {
+                console.log(params.id);
+                restaurantId = params.id
+            }
+            else{
+                restaurantId = auth.user?.id || 0
+            }
             const { menu } = request.qs()
             let dishes
-            if (menu === 'deal') {
-                dishes = await Dish.query().where('restaurantId', restaurantId)
-                    .andWhere('name', 'Like', "deal%")
-            }
-            else if (menu === 'regular') {
+            if (menu === 'regular') {
                 dishes = await Dish.query().where('restaurantId', restaurantId)
                     .andWhere('name', 'Not Like', "deal%")
+            }
+            else if (menu === 'deal') {
+                dishes = await Dish.query().where('restaurantId', restaurantId)
+                    .andWhere('name', 'Like', "deal%")
             }
             else {
                 return response.status(400).send({

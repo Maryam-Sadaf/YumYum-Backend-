@@ -38,12 +38,12 @@ Route.group(() => {
   //Home
   Route.get('/all_restaurants', 'HomesController.allRestaurants')
   //Dishes
-  Route.get('/dishes', 'DishesController.store')
+  Route.get('/dishes/:id', 'DishesController.show')
   //Carts
   Route.post('/carts', 'CartsController.store')
   Route.get('/carts', 'CartsController.show')
   Route.put('/carts/:id', 'CartsController.update')
-  Route.delete('/carts/:id?', 'CartsController.destroy')
+  Route.delete('/carts/:id', 'CartsController.destroy')
   //Orders
   Route.post('/orders', 'OrdersController.store')
 }).prefix('api').middleware(['auth:user_api'])
