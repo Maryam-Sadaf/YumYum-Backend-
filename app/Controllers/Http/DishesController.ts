@@ -30,11 +30,10 @@ export default class DishesController {
         try {
             var restaurantId
             if (params.id) {
-                console.log(params.id);
                 restaurantId = params.id
             }
             else{
-                restaurantId = auth.user?.id || 0
+                restaurantId = auth.user?.id
             }
             const { menu } = request.qs()
             let dishes

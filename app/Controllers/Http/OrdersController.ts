@@ -32,7 +32,7 @@ export default class OrdersController {
             await order.save()
             await OrderDetail.createMany(data);
             return response.send(Response({
-                message: 'Order placed successfully. Send notification to the restaurant'
+                message: 'You have a new order. Please check your notification panel'
             }))
         } catch (error) {
             console.log(error);
